@@ -39,17 +39,17 @@ main-menu:
       lore: [ ]
     autosell:
       "locked":
-        slot: 41
+        slot: 49
         material: "RED_STAINED_GLASS_PANE"
         name: "&2&l[!] &a&lSELLALL &8(&7Click&8)"
         lore: [ ]
       "enabled":
-        slot: 41
+        slot: 49
         material: "RED_STAINED_GLASS_PANE"
         name: "&2&l[!] &a&lSELLALL &8(&7Click&8)"
         lore: [ ]
       "disabled":
-        slot: 41
+        slot: 49
         material: "RED_STAINED_GLASS_PANE"
         name: "&2&l[!] &a&lSELLALL &8(&7Click&8)"
         lore: [ ]

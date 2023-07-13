@@ -37,7 +37,7 @@ public class MainMenu extends AbyssMenu {
     private final String itemName;
     private final List<String> itemLore;
 
-    private final MenuItemBuilder upgrade;
+    private final MenuItemBuilder upgrade, autosellLocked, autosellEnabled, autosellDisabled;
     private final MenuItemStack remove;
 
 
@@ -56,6 +56,21 @@ public class MainMenu extends AbyssMenu {
         this.upgrade = new MenuItemBuilder(
                 new ItemBuilder(plugin.getMenuConfig(), "main-menu.items.upgrades-menu"),
                 plugin.getMenuConfig().getInt("main-menu.items.upgrades-menu.slot")
+        );
+
+        this.autosellLocked = new MenuItemBuilder(
+                new ItemBuilder(plugin.getMenuConfig(), "main-menu.items.autosell.locked"),
+                plugin.getMenuConfig().getInt("main-menu.items.autosell.locked.slot")
+        );
+
+        this.autosellEnabled = new MenuItemBuilder(
+                new ItemBuilder(plugin.getMenuConfig(), "main-menu.items.autosell.enabled"),
+                plugin.getMenuConfig().getInt("main-menu.items.autosell.enabled.slot")
+        );
+
+        this.autosellDisabled = new MenuItemBuilder(
+                new ItemBuilder(plugin.getMenuConfig(), "main-menu.items.autosell.disabled"),
+                plugin.getMenuConfig().getInt("main-menu.items.autosell.disabled.slot")
         );
 
         this.remove = new MenuItemStack(
@@ -81,7 +96,9 @@ public class MainMenu extends AbyssMenu {
             blocks.add(entry.getKey());
         }
 
+
         final PlaceholderReplacer replacer = new PlaceholderReplacer()
+                .addPlaceholder("%autosell%", this.getStatus(playerCube))
                 .addPlaceholder("%value%", Utils.format(currentValue))
                 .addPlaceholder("%blocks%", Utils.format(totalBlocks));
 
@@ -179,6 +196,51 @@ public class MainMenu extends AbyssMenu {
             index++;
         }
 
+        if (!playerCube.isAutosellPurchased()) {
+            builder.setItem(this.autosellLocked.getSlot(), this.autosellLocked.getItem().parse(replacer));
+            builder.addClickEvent(this.autosellLocked.getSlot(), event -> {
+
+                final long cost = this.plugin.getSettingsConfig().getLong("autosell-cost");
+
+                if (!DefaultEconomyRegistry.get().getEconomy("vault").hasBalance(player, cost)) {
+                    plugin.getMessageCache().sendMessage(player, "messages.not-enough");
+                    return;
+                }
+
+                DefaultEconomyRegistry.get().getEconomy("vault").withdrawBalance(player, cost);
+
+                plugin.getMessageCache().sendMessage(player, "messages.level-purchased", new PlaceholderReplacer()
+                                .addPlaceholder("%upgrade%", "Autosell")
+                               .addPlaceholder("%level%", Utils.format(1)));
+
+                playerCube.setAutosellPurchased(true);
+                playerCube.setAutosellEnabled(true);
+                this.open(player, playerCube);
+            });
+        }
+
+        if (playerCube.isAutosellPurchased() && !playerCube.isAutosellEnabled()) {
+            builder.setItem(this.autosellDisabled.getSlot(), this.autosellDisabled.getItem().parse(replacer));
+            builder.addClickEvent(this.autosellDisabled.getSlot(), event -> {
+                playerCube.setAutosellEnabled(true);
+                this.open(player, playerCube);
+            });
+        }
+
+        if (playerCube.isAutosellPurchased() && playerCube.isAutosellEnabled()) {
+            builder.setItem(this.autosellEnabled.getSlot(), this.autosellEnabled.getItem().parse(replacer));
+            builder.addClickEvent(this.autosellEnabled.getSlot(), event -> {
+                playerCube.setAutosellEnabled(false);
+                this.open(player, playerCube);
+            });
+        }
+
         player.openInventory(builder.build(replacer));
+    }
+
+    private String getStatus(final PlayerCobbleCube cube) {
+        if (!cube.isAutosellPurchased()) return "Locked";
+        if (!cube.isAutosellEnabled()) return "Disabled";
+        return "Enabled";
     }
 }

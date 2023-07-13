@@ -30,6 +30,7 @@ public final class JewelsCobbleCubes extends AbyssPlugin {
 
     private static JewelsCobbleCubes api;
 
+    private final AbyssConfig settingsConfig = this.getAbyssConfig("settings");
     private final AbyssConfig upgradesConfig = this.getAbyssConfig("upgrades");
     private final AbyssConfig langConfig = this.getAbyssConfig("lang");
     private final AbyssConfig menuConfig = this.getAbyssConfig("menus");

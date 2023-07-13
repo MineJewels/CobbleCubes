@@ -45,6 +45,8 @@ public class BreakListener extends AbyssListener<JewelsCobbleCubes> {
         event.getEvent().setDropItems(false);
         event.getEvent().setExpToDrop(0);
 
+        cube.getBrokenLocations().add(LocationSerializer.serialize(location));
+
         if (cube.isAutosellEnabled()) {
             DefaultEconomyRegistry.get().getEconomy("vault").addBalance(player, cube.getCost(block.getType()));
             return;
@@ -66,6 +68,5 @@ public class BreakListener extends AbyssListener<JewelsCobbleCubes> {
         }
 
         cube.addDrop(block.getType());
-        cube.getBrokenLocations().add(LocationSerializer.serialize(location));
     }
 }

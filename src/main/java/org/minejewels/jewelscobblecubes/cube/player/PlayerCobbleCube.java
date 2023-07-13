@@ -33,7 +33,8 @@ public final class PlayerCobbleCube {
 
     private final Map<String, Long> serializedUpgrades = Maps.mutable.empty();
 
-    private final boolean autosellEnabled;
+    private boolean autosellPurchased;
+    private boolean autosellEnabled;
 
     private transient Map<CobbleCubeBlock, Long> blockStorage = Maps.mutable.empty();
 
@@ -49,6 +50,7 @@ public final class PlayerCobbleCube {
         this.bukkitLocation = LocationSerializer.deserialize(location);
         this.cobbleCube = plugin.getCubeRegistry().get(cobbleCubeType).get();
 
+        this.autosellPurchased = false;
         this.autosellEnabled = false;
 
         final Location end = bukkitLocation.clone().add(
@@ -67,12 +69,6 @@ public final class PlayerCobbleCube {
 
         final Vector cubeSize = new Vector(cobbleCube.getLength(), cobbleCube.getHeight(), cobbleCube.getWidth());
         final Vector topOffset = cubeSize.clone().multiply(0.5).setY(cubeSize.getY());
-
-        Location topLocation = bukkitLocation.clone().add(topOffset);
-
-        topLocation.add(0.5, this.cobbleCube.getYOffset(), 0.5);
-
-        DHAPI.createHologram(UUID.randomUUID() + "-CUBE", topLocation, false, this.cobbleCube.getHologram());
     }
 
     public void deserialize(final JewelsCobbleCubes plugin) {
@@ -124,12 +120,6 @@ public final class PlayerCobbleCube {
 
         final Vector cubeSize = new Vector(cobbleCube.getLength(), cobbleCube.getHeight(), cobbleCube.getWidth());
         final Vector topOffset = cubeSize.clone().multiply(0.5).setY(cubeSize.getY());
-
-        Location topLocation = bukkitLocation.clone().add(topOffset);
-
-        topLocation.add(0.5, this.cobbleCube.getYOffset(), 0.5);
-
-        DHAPI.createHologram(UUID.randomUUID() + "-CUBE", topLocation, false, this.cobbleCube.getHologram());
     }
 
     public void addDrop(final Material material) {
