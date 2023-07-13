@@ -113,7 +113,7 @@ public class SkillTreeMenu extends PagedAbyssMenu<JewelsCobbleCubes> {
                     .addPlaceholder("%level%", Utils.format(upgrade.getLevel()))
                     .addPlaceholder("%new_level%", Utils.format(upgrade.getLevel() + 1))
                     .addPlaceholder("%max_level%", Utils.format(this.skillTree.getUpgrade().getLevels()))
-                    .addPlaceholder("%increase%", Utils.format(skillTree.getUpgrade().getIncreasePerLevel() * cubeLevel));
+                    .addPlaceholder("%increase%", Utils.format(skillTree.getUpgrade().getAmount(upgrade.getLevel() + 1) - skillTree.getUpgrade().getAmount(upgrade.getLevel())));
 
             if (upgrade.getLevel() <= cubeLevel) {
                 builder.setItem(slot, this.purchasedSlots.parse(replacer));

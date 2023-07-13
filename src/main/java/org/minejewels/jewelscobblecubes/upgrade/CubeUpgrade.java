@@ -12,7 +12,7 @@ public class CubeUpgrade {
     private final int levels;
 
     public double getAmount(final long level) {
-        if (level <= 0 || level > levels) {
+        if (level <= 0 ) {
             throw new IllegalArgumentException("Invalid level: " + level);
         }
 
