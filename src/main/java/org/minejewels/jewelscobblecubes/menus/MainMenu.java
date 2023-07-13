@@ -37,7 +37,7 @@ public class MainMenu extends AbyssMenu {
     private final String itemName;
     private final List<String> itemLore;
 
-    private final MenuItemBuilder upgrade, autosellLocked, autosellEnabled, autosellDisabled;
+    private final MenuItemBuilder reset, upgrade, autosellLocked, autosellEnabled, autosellDisabled;
     private final MenuItemStack remove;
 
 
@@ -51,6 +51,11 @@ public class MainMenu extends AbyssMenu {
         this.sellall = new MenuItemStack(
                 new ItemBuilder(plugin.getMenuConfig(), "main-menu.items.sellall-item").parse(),
                 plugin.getMenuConfig().getInt("main-menu.items.sellall-item.slot")
+        );
+
+        this.reset = new MenuItemBuilder(
+                new ItemBuilder(plugin.getMenuConfig(), "main-menu.items.reset-item"),
+                plugin.getMenuConfig().getInt("main-menu.items.reset-item.slot")
         );
 
         this.upgrade = new MenuItemBuilder(
@@ -111,6 +116,18 @@ public class MainMenu extends AbyssMenu {
         builder.setItem(sellall.getSlot(), sellall.getItem());
         builder.setItem(upgrade.getSlot(), upgrade.getItem());
         builder.setItem(remove.getSlot(), remove.getItem());
+        builder.setItem(reset.getSlot(), reset.getItem());
+
+        builder.addClickEvent(this.reset.getSlot(), event -> {
+            if (this.plugin.getResetCooldown().contains(playerCube)) {
+                this.plugin.getMessageCache().sendMessage(player, "messages.on-cooldown");
+                return;
+            }
+
+            playerCube.reset();
+            this.plugin.getMessageCache().sendMessage(player, "messages.cube-reset");
+            this.plugin.getResetCooldown().add(playerCube);
+        });
 
         builder.addClickEvent(this.upgrade.getSlot(), event -> new UpgradeMenu(plugin).open(player, playerCube));
 

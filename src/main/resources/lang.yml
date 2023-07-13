@@ -150,3 +150,33 @@ messages:
       enabled: true
       value:
         - "&b&lCubes &8- &3You &bhave opened the &3management &bmenu!"
+  "on-cooldown":
+    sound:
+      enabled: true
+      value: "BLOCK_NOTE_PLING"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&b&lCubes &8- &bYou are on cooldown!"
+  "cube-reset":
+    sound:
+      enabled: true
+      value: "BLOCK_NOTE_PLING"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&b&lCubes &8- &bCube reset!"
+  "max-storage":
+    sound:
+      enabled: true
+      value: "BLOCK_NOTE_PLING"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&b&lCubes &8- &bMax Storage!"

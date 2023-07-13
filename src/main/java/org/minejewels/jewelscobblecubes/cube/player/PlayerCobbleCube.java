@@ -3,6 +3,7 @@ package org.minejewels.jewelscobblecubes.cube.player;
 import eu.decentsoftware.holograms.api.DHAPI;
 import lombok.Getter;
 import lombok.Setter;
+import net.abyssdev.abysslib.caged.MathUtility;
 import net.abyssdev.abysslib.location.LocationSerializer;
 import net.abyssdev.abysslib.nms.BlockSetTask;
 import net.abyssdev.abysslib.utils.Region;
@@ -15,11 +16,9 @@ import org.minejewels.jewelscobblecubes.JewelsCobbleCubes;
 import org.minejewels.jewelscobblecubes.cube.CobbleCube;
 import org.minejewels.jewelscobblecubes.cube.block.CobbleCubeBlock;
 import org.minejewels.jewelscobblecubes.upgrade.CubeUpgrade;
+import org.minejewels.jewelsrealms.JewelsRealms;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -157,5 +156,32 @@ public final class PlayerCobbleCube {
         final CobbleCubeBlock block = optionalBlock.get();
 
         return block.getPrice();
+    }
+
+    public void reset() {
+        if (JewelsRealms.get().getRealmUtils().getMembersOnRealm(JewelsRealms.get().getRealmUtils().getRealm(this.getBukkitLocation().getWorld())).isEmpty()) return;
+        if (this.getBrokenLocations().isEmpty()) return;
+
+        Iterator<String> iterator = this.getBrokenLocations().iterator();
+        while (iterator.hasNext()) {
+            String brokenLocation = iterator.next();
+            Location blockLocation = LocationSerializer.deserialize(brokenLocation);
+            blockLocation.getBlock().setType(this.getCobbleCube().getBlocks().next().getMaterial());
+            iterator.remove();
+        }
+    }
+
+
+    private  <T> T randomElement(Set<T> set) {
+        int size = set.size();
+        int item = MathUtility.getRandomNumber(0, size);
+        int i = 0;
+        for (T obj : set) {
+            if (i == item) {
+                return obj;
+            }
+            i++;
+        }
+        return null;
     }
 }

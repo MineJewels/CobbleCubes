@@ -16,6 +16,12 @@ main-menu:
       - "&6&l * &e&lWorth: &f$%value%"
       - "&7"
   items:
+    reset-item:
+      slot: 40
+      material: "CHEST"
+      name: "&4&l[!] &aReset"
+      lore:
+        - "&cReset cube!"
     sellall-item:
       slot: 39
       material: "EMERALD"

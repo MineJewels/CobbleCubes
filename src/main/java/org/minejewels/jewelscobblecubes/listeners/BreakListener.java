@@ -1,6 +1,7 @@
 package org.minejewels.jewelscobblecubes.listeners;
 
 import net.abyssdev.abysslib.economy.registry.impl.DefaultEconomyRegistry;
+import net.abyssdev.abysslib.fawe.FaweUtils;
 import net.abyssdev.abysslib.listener.AbyssListener;
 import net.abyssdev.abysslib.location.LocationSerializer;
 import org.bukkit.Location;
@@ -54,7 +55,7 @@ public class BreakListener extends AbyssListener<JewelsCobbleCubes> {
 
         final CubeUpgrade storageUpgrade = this.plugin.getUpgradeRegistry().get("STORAGE").get();
 
-        final long maxStorage = storageUpgrade.getStartingAmount() * cube.getLevel(storageUpgrade);
+        final double maxStorage = storageUpgrade.getAmount(cube.getLevel(storageUpgrade));
 
         long totalBlocks = 0;
 
@@ -63,7 +64,8 @@ public class BreakListener extends AbyssListener<JewelsCobbleCubes> {
         }
 
         if (totalBlocks >= maxStorage) {
-            player.sendMessage("Max Storage!");
+            plugin.getMessageCache().sendMessage(player, "messages.max-storage");
+            event.setCancelled(true);
             return;
         }
 

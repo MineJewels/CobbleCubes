@@ -2,13 +2,13 @@ package org.minejewels.jewelscobblecubes;
 
 import com.google.common.io.Files;
 import lombok.Getter;
+import net.abyssdev.abysslib.collections.entry.EntryTimeLimitSet;
 import net.abyssdev.abysslib.config.AbyssConfig;
 import net.abyssdev.abysslib.patterns.registry.Registry;
 import net.abyssdev.abysslib.patterns.service.Service;
 import net.abyssdev.abysslib.plugin.AbyssPlugin;
 import net.abyssdev.abysslib.storage.SingleKeyedStorage;
 import net.abyssdev.abysslib.text.MessageCache;
-import org.checkerframework.checker.units.qual.C;
 import org.minejewels.jewelscobblecubes.commands.CobbleCubeCommand;
 import org.minejewels.jewelscobblecubes.commands.sub.CobbleCubeGiveCommand;
 import org.minejewels.jewelscobblecubes.cube.CobbleCube;
@@ -16,7 +16,6 @@ import org.minejewels.jewelscobblecubes.cube.player.PlayerCobbleCube;
 import org.minejewels.jewelscobblecubes.cube.registry.CubeRegistry;
 import org.minejewels.jewelscobblecubes.cube.service.CachedCubeService;
 import org.minejewels.jewelscobblecubes.cube.storage.CubeStorage;
-import org.minejewels.jewelscobblecubes.cube.task.CubeTask;
 import org.minejewels.jewelscobblecubes.listeners.BreakListener;
 import org.minejewels.jewelscobblecubes.listeners.InteractListener;
 import org.minejewels.jewelscobblecubes.listeners.PlaceListener;
@@ -24,11 +23,15 @@ import org.minejewels.jewelscobblecubes.upgrade.CubeUpgrade;
 import org.minejewels.jewelscobblecubes.upgrade.registry.UpgradeRegistry;
 
 import java.io.File;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Getter
 public final class JewelsCobbleCubes extends AbyssPlugin {
 
     private static JewelsCobbleCubes api;
+
+    private final Set<PlayerCobbleCube> resetCooldown = new EntryTimeLimitSet<>(TimeUnit.SECONDS, 30L);
 
     private final AbyssConfig settingsConfig = this.getAbyssConfig("settings");
     private final AbyssConfig upgradesConfig = this.getAbyssConfig("upgrades");
@@ -69,8 +72,6 @@ public final class JewelsCobbleCubes extends AbyssPlugin {
         });
 
         this.loadCommands();
-
-        new CubeTask(this);
 
         new PlaceListener(this);
         new InteractListener(this);
