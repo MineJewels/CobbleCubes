@@ -1,0 +1,8 @@
+name: JewelsCobbleCubes
+version: ${project.version}
+main: org.minejewels.jewelscobblecubes.JewelsCobbleCubes
+api-version: 1.19
+depend: [ AbyssLib, JewelsRealms ]
+softdepend: [ Multiverse-Core ]
+authors: [ Consciences ]
+description: Custom CobbleCubes!

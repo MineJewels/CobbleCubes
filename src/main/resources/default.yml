@@ -1,0 +1,38 @@
+materials:
+  "DIAMOND_ORE":
+    generation-chance: 10.0
+    price: 10.0
+  "COBBLESTONE":
+    generation-chance: 40.0
+    price: 2.0
+  "STONE":
+    generation-chance: 50.0
+    price: 1.0
+
+size:
+  length: 5
+  width: 5
+  height: 5
+
+hologram:
+  y-offset: 3
+  hologram:
+    - "&bCool CobbleCube"
+    - "&bOWNER: &f%owner%"
+    - "&7"
+item:
+  material: "ENDER_PORTAL_FRAME"
+  name: "&e&lCOBBLE&6&lCUBE &8(&7Place Down&8)"
+  lore:
+    - "&7&oThis &f&oCobbleCube &7&owill automatically generate"
+    - "&7&oores depending on the upgrade!"
+    - "&7"
+    - "&6&l * &e&lSIZE: &f&o%length%x%width%x%height%"
+    - "&7"
+
+generation:
+  outline-block: "BEDROCK"
+
+settings:
+  blocks-per-reset: 4
+  reset-on-load: true # Resets every cobblecube when server restarts

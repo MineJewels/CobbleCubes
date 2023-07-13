@@ -1,0 +1,77 @@
+main-menu:
+  title: "&8&lCUBE MENU"
+  rows: 6
+  item-slots: [10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25]
+  borders:
+    "gray":
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+      lore: [ ]
+      slots:
+        - "0-53"
+  storage-item:
+    name: "&6&l[!] &7%name%"
+    lore:
+      - "&6&l * &e&lQuantity: &f%amount%"
+      - "&6&l * &e&lWorth: &f$%value%"
+      - "&7"
+  items:
+    sellall-item:
+      slot: 39
+      material: "EMERALD"
+      name: "&2&l[!] &a&lSELLALL &8(&7Click&8)"
+      lore:
+        - "&7"
+        - "&7Once clicked, you will sell &fALL &7the contents in your CobbleCube!"
+        - "&7"
+        - "&2&l * &a&lCURRENT VALUE: &f$%value%"
+        - "&2&l * &a&lTOTAL BLOCKS: &f%blocks%"
+        - "&7"
+    upgrades-menu:
+      slot: 41
+      material: "HOPPER"
+      name: "&2&l[!] &a&lSELLALL &8(&7Click&8)"
+      lore: [ ]
+    remove-cube:
+      slot: 53
+      material: "BARRIER"
+      name: "&2&l[!] &a&lSELLALL &8(&7Click&8)"
+      lore: [ ]
+    autosell:
+      "locked":
+        slot: 41
+        material: "RED_STAINED_GLASS_PANE"
+        name: "&2&l[!] &a&lSELLALL &8(&7Click&8)"
+        lore: [ ]
+      "enabled":
+        slot: 41
+        material: "RED_STAINED_GLASS_PANE"
+        name: "&2&l[!] &a&lSELLALL &8(&7Click&8)"
+        lore: [ ]
+      "disabled":
+        slot: 41
+        material: "RED_STAINED_GLASS_PANE"
+        name: "&2&l[!] &a&lSELLALL &8(&7Click&8)"
+        lore: [ ]
+
+upgrades-menu:
+  title: "&8&lUPGRADES MENU"
+  rows: 4
+  borders:
+    "gray":
+      material: "GRAY_STAINED_GLASS_PANE"
+      name: " "
+      lore: []
+      slots:
+        - "0-35"
+  "back-menu":
+    material: "BARRIER"
+    name: " "
+    lore: [ ]
+    slot: 53
+  upgrades:
+    "storage":
+      slot: 13
+      material: "ENDER_CHEST"
+      name: "&6Storage"
+      lore: [ ]

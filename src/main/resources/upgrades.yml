@@ -1,0 +1,107 @@
+upgrades:
+  "storage":
+    enabled: true
+    max-pages: 1
+    base-amount: 500
+    base-cost: 100000
+    cost-increase: 1.05
+    levels: 15
+    increase-per-level: 250.0
+    skill-tree:
+      title: "&8&lSTORAGE SKILL TREE"
+      rows: 6
+      upgrade-slots: [10,19,28,29,30,21,12,13,14]
+      borders:
+        "gray":
+          material: "GRAY_STAINED_GLASS_PANE"
+          name: " "
+          lore: []
+          slots:
+            - "0-53"
+      action-items:
+        "next-page":
+          slot: 50
+          material: "LIME_DYE"
+          name: "&a Next Page"
+          lore: [ ]
+        "previous-page":
+          slot: 48
+          material: "RED_DYE"
+          name: "&a Prev Page"
+          lore: [ ]
+        "current-page":
+          slot: 49
+          material: "YELLOW_DYE"
+          name: "&e current Page"
+          lore: [ ]
+        "back-menu":
+          material: "BARRIER"
+          name: " "
+          lore: [ ]
+          slot: 53
+      display-items:
+        "locked-slots":
+          material: "RED_DYE"
+          name: "%level%"
+          lore: [ ]
+        "purchased-slots":
+          material: "LIME_DYE"
+          name: "%level%"
+          lore: [ ]
+        "next-upgrade":
+          material: "YELLOW_DYE"
+          name: "%level%"
+          lore: [ ]
+  "cyborg":
+    enabled: false
+    max-pages: 1
+    base-amount: 0
+    base-cost: 100000
+    cost-increase: 1.05
+    levels: 10
+    increase-per-level: 5
+    skill-tree:
+      title: "&8&lSTORAGE SKILL TREE"
+      rows: 3
+      upgrade-slots: [ 10,19,28,29,30,21,12,13,14 ]
+      borders:
+        "gray":
+          material: "GRAY_STAINED_GLASS_PANE"
+          name: " "
+          lore: [ ]
+          slots:
+            - "0-54"
+      action-items:
+        "next-page":
+          slot: 50
+          material: "LIME_DYE"
+          name: "&a Next Page"
+          lore: [ ]
+        "previous-page":
+          slot: 48
+          material: "RED_DYE"
+          name: "&a Prev Page"
+          lore: [ ]
+        "current-page":
+          slot: 49
+          material: "YELLOW_DYE"
+          name: "&e current Page"
+          lore: [ ]
+        "back-menu":
+          material: "BARRIER"
+          name: " "
+          lore: [ ]
+          slot: 53
+      display-items:
+        "locked-slots":
+          material: "RED_DYE"
+          name: " "
+          lore: [ ]
+        "purchased-slots":
+          material: "LIME_DYE"
+          name: " "
+          lore: [ ]
+        "next-upgrade":
+          material: "YELLOW_DYE"
+          name: " "
+          lore: [ ]

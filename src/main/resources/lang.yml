@@ -1,0 +1,152 @@
+messages:
+  no-permissions:
+    sound:
+      enabled: true
+      value: "FIZZ"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&c&lCubes &8- &cYou do not have &4permission &cto execute this!"
+  "cannot-interact":
+    sound:
+      enabled: true
+      value: "FIZZ"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&c&lCubes &8- &cYou cannot place/break/interact with cobblecubes here!"
+  "blocks-in-way":
+    sound:
+      enabled: true
+      value: "FIZZ"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&c&lCubes &8- &cThere are blocks in the way &8(&7X: %x%, Y: %y%, Z: %z%&8)"
+  invalid-arguments:
+    sound:
+      enabled: true
+      value: "FIZZ"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&c&lCubes &8- &cPlease check &4/cube help &cfor correct syntax usage!"
+  admin-help:
+    sound:
+      enabled: true
+      value: "ORB_PICKUP"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&3&m---------------------------------------"
+        - " "
+        - "&b&lVyzern&3&lCobbleCubes &8&l┃ &bAdmin Help"
+        - "&7&oMade by &f&oConsciences#0001&7&o."
+        - " "
+        - "&7<> = Required"
+        - "&7[] = Optional"
+        - " "
+        - "&3&lCOMMANDS:"
+        - "&3&l» &b/cube give <player> <type> <amount>"
+        - " "
+        - "&3&m---------------------------------------"
+  "given-cube":
+    sound:
+      enabled: true
+      value: "BLOCK_NOTE_PLING"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&b&lCubes &8- &bYou have given &3%player% %amount%x %type%&b cube(s)."
+  "received-cube":
+    sound:
+      enabled: true
+      value: "BLOCK_NOTE_PLING"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&b&lCubes &8- &bYou have received &3%amount%x %type%&b cube(s)."
+  "placed-cube":
+    sound:
+      enabled: true
+      value: "BLOCK_NOTE_PLING"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&b&lCubes &8- &bYou have removed a &3Cobble Cube&b!"
+  already-purchased:
+    sound:
+      enabled: true
+      value: "FIZZ"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&c&lCubes &8- &cYou have &4already &cpurchased this upgrade!"
+  not-enough:
+    sound:
+      enabled: true
+      value: "FIZZ"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&c&lCubes &8- &cYou do not have enough money to purchase this!"
+  "sold-cube":
+    sound:
+      enabled: true
+      value: "BLOCK_NOTE_PLING"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&b&lCubes &8- &bYou have sold a &3Cobble Cube&b for a total of &3$%value%&b! &8(&7%blocks% Blocks)"
+  "removed-cube":
+    sound:
+      enabled: true
+      value: "BLOCK_NOTE_PLING"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&b&lCubes &8- &bYou have placed a &3Cobble Cube &bdown!"
+  "level-purchased":
+    sound:
+      enabled: true
+      value: "FIZZ"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&b&lCubes &8- &3You&b have upgraded &3%upgrade%&b to level %new_level%!"
+  "management-menu-opened":
+    sound:
+      enabled: true
+      value: "FIZZ"
+      volume: 1
+      pitch: 1
+    message:
+      enabled: true
+      value:
+        - "&b&lCubes &8- &3You &bhave opened the &3management &bmenu!"
