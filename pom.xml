@@ -40,6 +40,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
                         </configuration>
                     </execution>
                 </executions>
@@ -62,6 +63,10 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -74,28 +79,27 @@
         <dependency>
             <groupId>org.minejewels</groupId>
             <artifactId>abysslib</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
             <scope>system</scope>
             <systemPath>${basedir}/libs/AbyssLib.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.minejewels</groupId>
             <artifactId>realms</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
             <scope>system</scope>
             <systemPath>${basedir}/libs/JewelsRealms.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>org.minejewels</groupId>
-            <artifactId>dh</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/libs/DecentHolograms-2.8.2.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.hsgamer</groupId>
+            <artifactId>block-util</artifactId>
+            <version>2.3.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

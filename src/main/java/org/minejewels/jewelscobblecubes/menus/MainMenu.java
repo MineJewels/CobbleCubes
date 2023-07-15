@@ -1,5 +1,6 @@
 package org.minejewels.jewelscobblecubes.menus;
 
+import com.cryptomorin.xseries.XMaterial;
 import net.abyssdev.abysslib.builders.ItemBuilder;
 import net.abyssdev.abysslib.economy.registry.impl.DefaultEconomyRegistry;
 import net.abyssdev.abysslib.menu.MenuBuilder;
@@ -124,7 +125,7 @@ public class MainMenu extends AbyssMenu {
                 return;
             }
 
-            playerCube.reset();
+            playerCube.reset(plugin);
             this.plugin.getMessageCache().sendMessage(player, "messages.cube-reset");
             this.plugin.getResetCooldown().add(playerCube);
         });
@@ -136,10 +137,9 @@ public class MainMenu extends AbyssMenu {
             plugin.getCachedCubeService().remove(playerCube);
             plugin.getCubeStorage().remove(playerCube);
 
-            for (final Block block : RegionUtils.getBlocksWithinRegion(playerCube.getOutlineRegion())) {
-                player.playEffect(block.getLocation(), Effect.SMOKE, 0);
-                block.setType(Material.AIR);
-            }
+            this.plugin.getBlockHandler().clearBlocks(
+                    RegionUtils.getLocationsWithinRegion(playerCube.getOutlineRegion())
+            );
 
             plugin.getMessageCache().sendMessage(player, "messages.removed-cube");
 

@@ -1,11 +1,11 @@
 package org.minejewels.jewelscobblecubes.cube.player;
 
-import eu.decentsoftware.holograms.api.DHAPI;
+import com.cryptomorin.xseries.XMaterial;
+import com.lewdev.probabilitylib.ProbabilityCollection;
 import lombok.Getter;
 import lombok.Setter;
 import net.abyssdev.abysslib.caged.MathUtility;
 import net.abyssdev.abysslib.location.LocationSerializer;
-import net.abyssdev.abysslib.nms.BlockSetTask;
 import net.abyssdev.abysslib.utils.Region;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,7 +18,10 @@ import org.minejewels.jewelscobblecubes.cube.block.CobbleCubeBlock;
 import org.minejewels.jewelscobblecubes.upgrade.CubeUpgrade;
 import org.minejewels.jewelsrealms.JewelsRealms;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -158,17 +161,28 @@ public final class PlayerCobbleCube {
         return block.getPrice();
     }
 
-    public void reset() {
+    public void reset(final JewelsCobbleCubes plugin) {
         if (JewelsRealms.get().getRealmUtils().getMembersOnRealm(JewelsRealms.get().getRealmUtils().getRealm(this.getBukkitLocation().getWorld())).isEmpty()) return;
         if (this.getBrokenLocations().isEmpty()) return;
 
-        Iterator<String> iterator = this.getBrokenLocations().iterator();
-        while (iterator.hasNext()) {
-            String brokenLocation = iterator.next();
-            Location blockLocation = LocationSerializer.deserialize(brokenLocation);
-            blockLocation.getBlock().setType(this.getCobbleCube().getBlocks().next().getMaterial());
-            iterator.remove();
+        final ProbabilityCollection<XMaterial> probabilityCollection = new ProbabilityCollection<>();
+
+        for (Map.Entry<Double, CobbleCubeBlock> entry : cobbleCube.getBlocks().getMap().entrySet()) {
+            probabilityCollection.add(XMaterial.matchXMaterial(entry.getValue().getMaterial()), (int) Math.round(entry.getKey()));
         }
+
+        final Collection<Location> cachedLocations = Sets.mutable.empty();
+
+        for (final String brokenLocation : this.brokenLocations) {
+            cachedLocations.add(LocationSerializer.deserialize(brokenLocation));
+        }
+
+        plugin.getBlockHandler().setRandomBlocks(
+                cachedLocations,
+                probabilityCollection
+        );
+
+        this.brokenLocations.clear();
     }
 
 

@@ -1,5 +1,6 @@
 package org.minejewels.jewelscobblecubes.upgrade.skilltree.menu;
 
+import com.cryptomorin.xseries.SkullUtils;
 import net.abyssdev.abysslib.builders.ItemBuilder;
 import net.abyssdev.abysslib.builders.PageBuilder;
 import net.abyssdev.abysslib.economy.registry.impl.DefaultEconomyRegistry;
@@ -9,14 +10,24 @@ import net.abyssdev.abysslib.menu.templates.PagedAbyssMenu;
 import net.abyssdev.abysslib.placeholder.PlaceholderReplacer;
 import net.abyssdev.abysslib.utils.Utils;
 import net.abyssdev.abysslib.utils.WordUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.util.EulerAngle;
 import org.eclipse.collections.api.factory.Lists;
 import org.minejewels.jewelscobblecubes.JewelsCobbleCubes;
 import org.minejewels.jewelscobblecubes.cube.player.PlayerCobbleCube;
 import org.minejewels.jewelscobblecubes.menus.UpgradeMenu;
 import org.minejewels.jewelscobblecubes.upgrade.skilltree.SkillTree;
 import org.minejewels.jewelscobblecubes.upgrade.skilltree.upgrade.SkillTreeUpgrade;
+import org.minejewels.jewelscobblecubes.utils.RegionUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -85,7 +96,11 @@ public class SkillTreeMenu extends PagedAbyssMenu<JewelsCobbleCubes> {
         builder.addClickEvent(this.back.getSlot(), event -> new UpgradeMenu(plugin).open(player, cube));
 
         builder.addClickEvent(this.next.getSlot(), event -> {
-            if (page + 1 > maxPages) return;
+            System.out.println(1);
+            System.out.println(maxPages);
+            System.out.println(page + 1);
+            if (page + 2 > maxPages) return;
+            System.out.println(2);
             if (pageBuilder.hasPage(page + 1)) {
                 this.open(player, page + 1, cube);
             }
@@ -148,6 +163,17 @@ public class SkillTreeMenu extends PagedAbyssMenu<JewelsCobbleCubes> {
                     plugin.getMessageCache().sendMessage(player, "messages.level-purchased", replacer);
                     cube.addLevel(skillTree.getUpgrade(), 1);
 
+                    if (skillTree.getUpgrade().getName().equalsIgnoreCase("CYBORG")) {
+                        if (cube.getLevel(skillTree.getUpgrade()) == 2) {
+
+                            for (final Location location : RegionUtils.getCenterOfBottom(cube.getOutlineRegion())) {
+                                location.add(0, 1, 0);
+                                this.spawnCustomArmorStand(location, player.getName(), cube);
+                            }
+
+                        }
+                    }
+
                     this.open(player, page, cube);
                     return;
                 }
@@ -159,5 +185,45 @@ public class SkillTreeMenu extends PagedAbyssMenu<JewelsCobbleCubes> {
         }
 
         player.openInventory(builder.build());
+    }
+
+    private void spawnCustomArmorStand(Location location, String playerName, final PlayerCobbleCube cube) {
+        ArmorStand armorStand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
+        armorStand.setVisible(false);
+        armorStand.setGravity(false);
+        armorStand.setSmall(true);
+
+        // Set the armor stand's pose
+        armorStand.setHeadPose(new EulerAngle(0, 0, 0));
+        armorStand.setBodyPose(new EulerAngle(0, 0, 0));
+        armorStand.setRightArmPose(new EulerAngle(0, 0, 0));
+        armorStand.setLeftArmPose(new EulerAngle(0, 0, 0));
+        armorStand.setRightLegPose(new EulerAngle(0, 0, 0));
+        armorStand.setLeftLegPose(new EulerAngle(0, 0, 0));
+
+        // Set the armor stand's equipment
+        ItemStack pickaxe = new ItemStack(Material.DIAMOND_PICKAXE);
+        armorStand.getEquipment().setItemInMainHand(pickaxe);
+
+        ItemStack pants = new ItemStack(Material.DIAMOND_LEGGINGS);
+        ItemStack chestplate = new ItemStack(Material.DIAMOND_CHESTPLATE);
+        armorStand.getEquipment().setLeggings(pants);
+        armorStand.getEquipment().setChestplate(chestplate);
+
+        // Set the armor stand's head to the player's skull
+        ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta skullMeta = (SkullMeta) skull.getItemMeta();
+        skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(playerName));
+        skull.setItemMeta(skullMeta);
+        armorStand.getEquipment().setHelmet(skull);
+
+        // Set the armor stand's rotation to face the cobble cube
+        Location cubeLocation = cube.getBukkitLocation();
+        Location armorStandLocation = armorStand.getLocation();
+        double diffX = cubeLocation.getX() - armorStandLocation.getX();
+        double diffZ = cubeLocation.getZ() - armorStandLocation.getZ();
+        double yaw = Math.atan2(-diffX, diffZ);
+        armorStandLocation.setYaw((float) Math.toDegrees(yaw));
+        armorStand.teleport(armorStandLocation);
     }
 }

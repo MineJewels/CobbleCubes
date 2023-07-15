@@ -3,6 +3,7 @@ package org.minejewels.jewelscobblecubes.utils;
 import lombok.experimental.UtilityClass;
 import net.abyssdev.abysslib.utils.Region;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.eclipse.collections.api.factory.Sets;
 
@@ -20,6 +21,26 @@ public final class RegionUtils {
                 for (int y = region.getMinY(); y <= region.getMaxY(); y++) {
                     Block block = region.getWorld().getBlockAt(x, y, z);
                     blocks.add(block);
+                }
+            }
+        }
+
+        return blocks;
+    }
+
+    public Set<Location> getLocationsWithinRegion(final Region region) {
+
+        final Set<Location> blocks = Sets.mutable.empty();
+
+        for (int x = region.getMinX(); x <= region.getMaxX(); x++) {
+            for (int z = region.getMinZ(); z <= region.getMaxZ(); z++) {
+                for (int y = region.getMinY(); y <= region.getMaxY(); y++) {
+                    blocks.add(new Location(
+                            region.getWorld(),
+                            x,
+                            y,
+                            z
+                    ));
                 }
             }
         }
@@ -72,5 +93,38 @@ public final class RegionUtils {
                 && x != region.getMaxX() && z != region.getMaxZ() && y == region.getMaxY()) return false;
 
         return true;
+    }
+
+    public Set<Location> getCenterOfBottom(final Region region) {
+        final Set<Location> locations = Sets.mutable.empty();
+
+        final int startX = Math.min(region.getMinX(), region.getMaxX());
+        final int startY = Math.min(region.getMinY(), region.getMaxY());
+        final int startZ = Math.min(region.getMinZ(), region.getMaxZ());
+        final int endX = Math.max(region.getMinX(), region.getMaxX());
+        final int endY = Math.max(region.getMinY(), region.getMaxY());
+        final int endZ = Math.max(region.getMinZ(), region.getMaxZ());
+
+        for (int x = startX; x <= endX; x++) {
+            for (int y = startY; y <= endY; y++) {
+                for (int z = startZ; z <= endZ; z++) {
+
+                    final Location location = new Location(
+                            region.getWorld(),
+                            x,
+                            y,
+                            z
+                    );
+
+                    if (!isOutline(location, region)) continue;
+
+                    if (y == startY && (z == startZ + (endZ - startZ) / 2 || x == startX + (endX - startX) / 2)) {
+                        locations.add(location);
+                    }
+                }
+            }
+        }
+
+        return locations;
     }
 }

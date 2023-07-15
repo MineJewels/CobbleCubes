@@ -1,5 +1,7 @@
 package org.minejewels.jewelscobblecubes.listeners;
 
+import com.cryptomorin.xseries.XMaterial;
+import com.lewdev.probabilitylib.ProbabilityCollection;
 import net.abyssdev.abysslib.listener.AbyssListener;
 import net.abyssdev.abysslib.location.LocationSerializer;
 import net.abyssdev.abysslib.nbt.NBTUtils;
@@ -17,10 +19,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.minejewels.jewelscobblecubes.JewelsCobbleCubes;
 import org.minejewels.jewelscobblecubes.cube.CobbleCube;
+import org.minejewels.jewelscobblecubes.cube.block.CobbleCubeBlock;
 import org.minejewels.jewelscobblecubes.cube.player.PlayerCobbleCube;
 import org.minejewels.jewelscobblecubes.events.CobbleCubePlaceEvent;
 import org.minejewels.jewelscobblecubes.utils.RegionUtils;
 import org.minejewels.jewelsrealms.events.RealmPlaceEvent;
+
+import java.util.Collection;
+import java.util.Map;
 
 public final class PlaceListener extends AbyssListener<JewelsCobbleCubes> {
 
@@ -55,7 +61,7 @@ public final class PlaceListener extends AbyssListener<JewelsCobbleCubes> {
 
         CobbleCube cobbleCube = this.plugin.getCubeRegistry().get(cobbleCubeType).get();
 
-        event.getEvent().getBlock().setType(Material.AIR);
+        event.getEvent().getBlock().setType(cobbleCube.getOutlineBlock());
         event.setCancelled(true);
 
         final Location end = spawnLocation.clone().add(
@@ -81,13 +87,19 @@ public final class PlaceListener extends AbyssListener<JewelsCobbleCubes> {
             return;
         }
 
-        for (final Block block : RegionUtils.getBlocksWithinRegion(shrunkRegion)) {
-            block.setType(cobbleCube.getBlocks().next().getMaterial());
+        final Collection<Location> blockLocations = RegionUtils.getLocationsWithinRegion(shrunkRegion);
+        final ProbabilityCollection<XMaterial> probabilityCollection = new ProbabilityCollection<>();
+
+        for (Map.Entry<Double, CobbleCubeBlock> entry : cobbleCube.getBlocks().getMap().entrySet()) {
+            probabilityCollection.add(XMaterial.matchXMaterial(entry.getValue().getMaterial()), (int) Math.round(entry.getKey()));
         }
 
-        for (final Location edge : RegionUtils.getEdgesOfRegion(newRegion)) {
-            edge.getBlock().setType(cobbleCube.getOutlineBlock());
-        }
+        this.plugin.getBlockHandler().setRandomBlocks(
+                blockLocations,
+                probabilityCollection
+        );
+
+        this.plugin.getBlockHandler().setBlocksFast(RegionUtils.getEdgesOfRegion(newRegion), XMaterial.matchXMaterial(cobbleCube.getOutlineBlock()));
 
         this.plugin.getMessageCache().sendMessage(player, "messages.placed-cube");
 

@@ -2,6 +2,8 @@ package org.minejewels.jewelscobblecubes;
 
 import com.google.common.io.Files;
 import lombok.Getter;
+import me.hsgamer.blockutil.abstraction.BlockHandler;
+import me.hsgamer.blockutil.api.BlockUtil;
 import net.abyssdev.abysslib.collections.entry.EntryTimeLimitSet;
 import net.abyssdev.abysslib.config.AbyssConfig;
 import net.abyssdev.abysslib.patterns.registry.Registry;
@@ -30,6 +32,8 @@ import java.util.concurrent.TimeUnit;
 public final class JewelsCobbleCubes extends AbyssPlugin {
 
     private static JewelsCobbleCubes api;
+
+    private final BlockHandler blockHandler = BlockUtil.getHandler(this);
 
     private final Set<PlayerCobbleCube> resetCooldown = new EntryTimeLimitSet<>(TimeUnit.SECONDS, 30L);
 
