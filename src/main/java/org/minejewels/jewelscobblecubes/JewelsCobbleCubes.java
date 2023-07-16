@@ -18,6 +18,7 @@ import org.minejewels.jewelscobblecubes.cube.player.PlayerCobbleCube;
 import org.minejewels.jewelscobblecubes.cube.registry.CubeRegistry;
 import org.minejewels.jewelscobblecubes.cube.service.CachedCubeService;
 import org.minejewels.jewelscobblecubes.cube.storage.CubeStorage;
+import org.minejewels.jewelscobblecubes.cube.task.CyborgTask;
 import org.minejewels.jewelscobblecubes.listeners.BreakListener;
 import org.minejewels.jewelscobblecubes.listeners.InteractListener;
 import org.minejewels.jewelscobblecubes.listeners.PlaceListener;
@@ -80,6 +81,8 @@ public final class JewelsCobbleCubes extends AbyssPlugin {
         new PlaceListener(this);
         new InteractListener(this);
         new BreakListener(this);
+
+        new CyborgTask(this);
     }
 
     @Override
