@@ -29,6 +29,8 @@ import org.minejewels.jewelscobblecubes.upgrade.skilltree.SkillTree;
 import org.minejewels.jewelscobblecubes.upgrade.skilltree.upgrade.SkillTreeUpgrade;
 import org.minejewels.jewelscobblecubes.utils.RegionUtils;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -108,8 +110,10 @@ public class SkillTreeMenu extends PagedAbyssMenu<JewelsCobbleCubes> {
             }
         });
 
-        final List<SkillTreeUpgrade> upgrades = pageBuilder.getPage(page);
+        List<SkillTreeUpgrade> upgrades = pageBuilder.getPage(page);
         int index = 0;
+
+        Collections.sort(upgrades, Comparator.comparingInt(SkillTreeUpgrade::getLevel));
 
         for (final int slot : this.skillTree.upgradeSlots) {
             if (index >= upgrades.size()) {

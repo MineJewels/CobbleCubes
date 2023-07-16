@@ -5,10 +5,12 @@ import net.abyssdev.abysslib.runnable.AbyssTask;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.minejewels.jewelscobblecubes.JewelsCobbleCubes;
+import org.minejewels.jewelscobblecubes.cube.block.CobbleCubeBlock;
 import org.minejewels.jewelscobblecubes.cube.player.PlayerCobbleCube;
 import org.minejewels.jewelscobblecubes.upgrade.CubeUpgrade;
 import org.minejewels.jewelscobblecubes.utils.RegionUtils;
 
+import java.util.Map;
 import java.util.Set;
 
 public class CyborgTask extends AbyssTask<JewelsCobbleCubes> {
@@ -36,7 +38,21 @@ public class CyborgTask extends AbyssTask<JewelsCobbleCubes> {
                 final Block block = this.randomElement(RegionUtils.getBlocksWithinRegion(cube.getCubeRegion()));
 
                 if (block == null) continue;
-                if (block.getType() == Material.AIR) return;
+                if (block.getType() == Material.AIR) continue;
+
+                final CubeUpgrade storageUpgrade = this.plugin.getUpgradeRegistry().get("STORAGE").get();
+
+                final double maxStorage = storageUpgrade.getAmount(cube.getLevel(storageUpgrade));
+
+                long totalBlocks = 0;
+
+                for (Map.Entry<CobbleCubeBlock, Long> entry : cube.getBlockStorage().entrySet()) {
+                    totalBlocks += entry.getValue();
+                }
+
+                if (totalBlocks >= maxStorage) {
+                    return;
+                }
 
                 cube.addDrop(block.getType());
 
