@@ -4,6 +4,7 @@ import net.abyssdev.abysslib.economy.registry.impl.DefaultEconomyRegistry;
 import net.abyssdev.abysslib.fawe.FaweUtils;
 import net.abyssdev.abysslib.listener.AbyssListener;
 import net.abyssdev.abysslib.location.LocationSerializer;
+import net.abyssdev.me.lucko.helper.Events;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -12,6 +13,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.minejewels.jewelscobblecubes.JewelsCobbleCubes;
 import org.minejewels.jewelscobblecubes.cube.block.CobbleCubeBlock;
 import org.minejewels.jewelscobblecubes.cube.player.PlayerCobbleCube;
+import org.minejewels.jewelscobblecubes.events.CobbleCubeBreakEvent;
+import org.minejewels.jewelscobblecubes.events.CobbleCubePlaceEvent;
 import org.minejewels.jewelscobblecubes.upgrade.CubeUpgrade;
 import org.minejewels.jewelsrealms.JewelsRealms;
 import org.minejewels.jewelsrealms.events.RealmBreakEvent;
@@ -50,6 +53,14 @@ public class BreakListener extends AbyssListener<JewelsCobbleCubes> {
 
         if (cube.isAutosellEnabled()) {
             DefaultEconomyRegistry.get().getEconomy("vault").addBalance(player, cube.getCost(block.getType()));
+
+            final CobbleCubeBreakEvent breakEvent = new CobbleCubeBreakEvent(
+                    player,
+                    cube,
+                    event.getEvent()
+            );
+
+            Events.call(breakEvent);
             return;
         }
 
@@ -68,6 +79,14 @@ public class BreakListener extends AbyssListener<JewelsCobbleCubes> {
             event.setCancelled(true);
             return;
         }
+
+        final CobbleCubeBreakEvent breakEvent = new CobbleCubeBreakEvent(
+                player,
+                cube,
+                event.getEvent()
+        );
+
+        Events.call(breakEvent);
 
         cube.addDrop(block.getType());
     }
