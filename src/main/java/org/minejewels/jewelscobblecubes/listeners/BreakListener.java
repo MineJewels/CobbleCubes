@@ -61,6 +61,11 @@ public class BreakListener extends AbyssListener<JewelsCobbleCubes> {
             );
 
             Events.call(breakEvent);
+
+            if (breakEvent.isCancelled()) {
+                event.setCancelled(true);
+            }
+
             return;
         }
 
@@ -87,6 +92,11 @@ public class BreakListener extends AbyssListener<JewelsCobbleCubes> {
         );
 
         Events.call(breakEvent);
+
+        if (breakEvent.isCancelled()) {
+            event.setCancelled(true);
+            return;
+        }
 
         cube.addDrop(block.getType());
     }
